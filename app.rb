@@ -3,10 +3,12 @@ require_relative './lib/bookmark'
 
 class BookmarkManager < Sinatra::Base
   get '/' do
-    'Bookmark Manager'
+    erb :form
   end
 
-  get '/bookmarks' do
+  post '/bookmarks' do
+    @bookmark = params[:bookmark]
+    Bookmark.create(@bookmark)
     @bookmarks = Bookmark.all
     erb :'bookmarks/index'
   end
