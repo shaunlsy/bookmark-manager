@@ -1,8 +1,11 @@
 <ul>
   <% @bookmarks.each do |bookmark| %>
-    <li><%= bookmark %></li>
+    <li>
+      <a href="<%= bookmark.url %>">
+        <%= bookmark.title %>
+      </a>
+    </li>
   <% end %>
-  <%= @bookmark %>
 </ul>
 <form action="/">
     <input type="submit" value="Return the homepage">

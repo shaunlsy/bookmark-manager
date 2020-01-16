@@ -6,19 +6,19 @@ feature 'Viewing bookmarks' do
     end
   end
 
-  scenario 'shows a list of bookmarks' do
-    connection = PG.connect(dbname: 'bookmark_manager_test')
-
-    connection.exec("INSERT INTO bookmarks VALUES(1, 'http://www.makersacademy.com', 'MakersAcademy');")
-    connection.exec("INSERT INTO bookmarks VALUES(2, 'http://www.destroyallsoftware.com', 'DestroyAllSoftware');")
-    connection.exec("INSERT INTO bookmarks VALUES(3, 'http://www.google.com', 'Google');")
+  scenario 'bookmarks are visible' do
+    Bookmark.create(url: "http://www.makersacademy.com", title: "Makers Academy")
+    Bookmark.create(url: "http://www.destroyallsoftware.com", title: "Destroy All Software")
+    Bookmark.create(url: "http://www.google.com", title: "Google")
 
     visit('/')
-    fill_in :bookmark, with: "www.abcde.com"
-    click_button 'Add'
-    expect(page).to have_content "http://www.makersacademy.com"
-    expect(page).to have_content "http://www.destroyallsoftware.com"
-    expect(page).to have_content "http://www.google.com"
+    fill_in :url, with: "www.abcde.com"
+    fill_in :title, with: "Abcde"
+    click_button "Add"
+
+    expect(page).to have_link "Makers Academy", href: "http://www.makersacademy.com"
+    expect(page).to have_link "Destroy All Software", href: "http://www.destroyallsoftware.com"
+    expect(page).to have_link "Google", href: "http://www.google.com"
   end
   
 end
